@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   Answers,
   AnswerText,
   Restult,
+  PaintImage,
 } from './styles';
 
 export default function Quiz({navigation}) {
@@ -32,7 +33,12 @@ export default function Quiz({navigation}) {
         <Restult>Seu resultado foi: {total}</Restult>
       ) : (
         <View>
-          <Question>{questions[numQuestion].question}</Question>
+          <PaintImage
+            style={{width: '100%', height: 150}}
+            resizeMode="contain"
+            source={questions[numQuestion].image}
+          />
+
           <Answers>
             {questions[numQuestion].answers.map(question => (
               <AnswerButton
@@ -48,6 +54,14 @@ export default function Quiz({navigation}) {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  stretch: {
+    width: 50,
+    height: 200,
+    resizeMode: 'stretch',
+  },
+});
 
 Quiz.navigationOptions = ({navigation}) => ({
   title: `${navigation.state.params.title}`,

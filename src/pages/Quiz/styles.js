@@ -32,3 +32,8 @@ export const Restult = styled.Text`
   color: #9483d7;
   font-weight: bold;
 `;
+
+export const PaintImage = styled.Image`
+  /* flex: 1; */
+  margin: 20px 0;
+`;
