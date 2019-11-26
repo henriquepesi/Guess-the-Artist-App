@@ -1,23 +1,50 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 
-import {Container, AnswerButton, Answers, AnswerText} from './styles';
+import {
+  Container,
+  AnswerButton,
+  Question,
+  Answers,
+  AnswerText,
+  Restult,
+} from './styles';
 
 export default function Quiz({navigation}) {
-  const title = navigation.getParam('title');
+  // const title = navigation.getParam('title');
   const questions = navigation.getParam('questions', []);
+  const numberQuestions = navigation.getParam('questions', []).length;
+  const [result, setResult] = useState(false);
+  const [total, setTotal] = useState(0);
+
+  const [numQuestion, setNumQuestion] = useState(0);
+
+  function handleQuestionNext(question) {
+    numQuestion !== numberQuestions - 1
+      ? setNumQuestion(numQuestion + 1)
+      : setResult(true);
+    question.correct ? setTotal(total + 1) : null;
+  }
 
   return (
     <Container>
-      <Text>{title}</Text>
-      <Text>{questions[0].question}</Text>
-      <Answers>
-        {questions[1].answers.map(question => (
-          <AnswerButton key={question.id}>
-            <AnswerText>{question.text}</AnswerText>
-          </AnswerButton>
-        ))}
-      </Answers>
+      {result ? (
+        <Restult>Seu resultado foi: {total}</Restult>
+      ) : (
+        <View>
+          <Question>{questions[numQuestion].question}</Question>
+          <Answers>
+            {questions[numQuestion].answers.map(question => (
+              <AnswerButton
+                onPress={() => handleQuestionNext(question)}
+                key={question.id}
+                correct={question.correct}>
+                <AnswerText>{question.text}</AnswerText>
+              </AnswerButton>
+            ))}
+          </Answers>
+        </View>
+      )}
     </Container>
   );
 }

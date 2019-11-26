@@ -10,10 +10,11 @@ export default function Home({navigation}) {
   return (
     <Container>
       <TopicList
+        keyExtractor={(item, index) => index.toString()}
         data={Topics}
         renderItem={({item: topic}) => (
           <Block
-            key={topic.name}
+            keyExtractor={topic.name}
             onPress={() =>
               navigation.navigate('Quiz', {
                 title: `${topic.name}`,
