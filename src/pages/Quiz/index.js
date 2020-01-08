@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text} from 'react-native';
 
 import {
   Container,
@@ -9,6 +9,8 @@ import {
   Restult,
   PaintImage,
   AnswersPage,
+  AnswerContainer,
+  AnswerContainerText,
 } from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 
@@ -37,33 +39,27 @@ export default function Quiz({navigation}) {
         <>
           <Restult>Seu resultado foi: {total}</Restult>
           {questions.map(question => {
-            <Image
-              style={{width: '100%', height: 150}}
-              resizeMode="contain"
-              source={question.image}
-            />;
+            <PaintImage resizeMode="cover" source={question.image} />;
           })}
 
           {/*Retorna todos  os itens*/}
           <FlatList
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={index => index.toString()}
             data={questions}
-            renderItem={({item, index}) => (
-              <View>
-                <Image
-                  style={{width: '100%', height: 150}}
-                  resizeMode="contain"
-                  source={item.image}
-                />
-                <Text>{item.answers[index].text}</Text>
-              </View>
+            renderItem={({item}) => (
+              <AnswerContainer>
+                <PaintImage resizeMode="contain" source={item.image} />
+                <AnswerContainerText>
+                  {item.answers.find(answers => answers.correct).text}
+                </AnswerContainerText>
+              </AnswerContainer>
             )}
           />
 
           {/* Retorna os itens certos */}
           <FlatList
             data={answers}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={index => index.toString()}
             renderItem={({item}) => (
               <View>
                 <Text>{item.text}</Text>
@@ -88,8 +84,7 @@ export default function Quiz({navigation}) {
       ) : (
         <View>
           <PaintImage
-            style={{width: '100%', height: 150}}
-            resizeMode="contain"
+            resizeMode="cover"
             source={questions[numQuestion].image}
           />
 

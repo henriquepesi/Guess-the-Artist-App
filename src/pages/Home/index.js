@@ -30,5 +30,5 @@ export default function Home({navigation}) {
 }
 
 Home.navigationOptions = {
-  title: 'Guess Art',
+  title: 'Guess the Artist',
 };
